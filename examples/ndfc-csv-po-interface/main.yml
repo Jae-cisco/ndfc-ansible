@@ -1,4 +1,25 @@
-  #Create a single port channel interfaces on Leaf-3's eth1/10 port in fabric "netmarble-kt" 
+
+---
+- name: NDFC Connectivity Test
+  hosts: ndfc_cisg_lab
+  connection: ansible.netcommon.httpapi
+  gather_facts: true
+
+  tasks:
+#Importing CSV file   
+  - name: Import CSV
+    community.general.read_csv:
+      path: csv-poc-list.csv
+    register: excel
+    delegate_to: localhost
+  - name: display user_list data
+    debug:
+    #Print out csv's file in the ansible command console to check if import is working properly 
+      var: item.portchannel
+    with_items: "{{ excel.list }}"
+    
+    
+#Create a single port channel interfaces on Leaf-3's eth1/10 port in fabric "netmarble-kt" 
   
   - name: Create port channel interfaces
     cisco.dcnm.dcnm_interface: #&pc_merge
@@ -26,7 +47,8 @@
 
 #Create multiple port channel interfaces using csv file import" 
 
-- name: Create port channel interfaces
+
+  - name: Create port channel interfaces
     cisco.dcnm.dcnm_interface: &pc_merge
       fabric: netmarble-kt
       state: merged                         # only choose from [merged, replaced, deleted, overridden, query]
@@ -51,4 +73,5 @@
             description: "port channel acting as trunk"
     with_items: "{{ excel.list }}"
   
+
 

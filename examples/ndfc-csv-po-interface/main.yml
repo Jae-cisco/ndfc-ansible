@@ -1,0 +1,54 @@
+  #Create a single port channel interfaces on Leaf-3's eth1/10 port in fabric "netmarble-kt" 
+  
+  - name: Create port channel interfaces
+    cisco.dcnm.dcnm_interface: #&pc_merge
+      fabric: netmarble-kt
+      state: merged                         # only choose from [merged, replaced, deleted, overridden, query]
+      config:
+        - name: po300                       # should be of the form po<port-id>
+          type: pc                          # choose from this list [pc, vpc, sub_int, lo, eth]
+          switch:
+            - "Leaf-3"                 # provide the switch information where the config is to be deployed
+          deploy: true                      # choose from [true, false]
+          profile:
+            admin_state: true               # choose from [true, false]
+            mode: trunk                     # choose from [trunk, access, l3, monitor]
+            members:                        # member interfaces
+              - eth1/10
+            pc_mode: 'active'               # choose from ['on', 'active', 'passive']
+            bpdu_guard: true                # choose from [true, false, no]
+            port_type_fast: true            # choose from [true, false]
+            mtu: jumbo                      # choose from [default, jumbo]
+            allowed_vlans: none             # choose from [none, all, vlan range]
+            cmds:                           # Freeform config
+              - no shutdown
+            description: "port channel acting as trunk"
+
+#Create multiple port channel interfaces using csv file import" 
+
+- name: Create port channel interfaces
+    cisco.dcnm.dcnm_interface: &pc_merge
+      fabric: netmarble-kt
+      state: merged                         # only choose from [merged, replaced, deleted, overridden, query]
+      config:
+        - name: "{{ item.portchannel_num }}"                       # should be of the form po<port-id>
+          type: pc                          # choose from this list [pc, vpc, sub_int, lo, eth]
+          switch:
+            - "Leaf-3"                 # provide the switch information where the config is to be deployed
+          deploy: true                      # choose from [true, false]
+          profile:
+            admin_state: true               # choose from [true, false]
+            mode: trunk                     # choose from [trunk, access, l3, monitor]
+            members:                        # member interfaces
+              - "{{ item.portchannel }}" 
+            pc_mode: 'active'                   # choose from ['on', 'active', 'passive']
+            bpdu_guard: true                # choose from [true, false, no]
+            port_type_fast: true            # choose from [true, false]
+            mtu: jumbo                      # choose from [default, jumbo]
+            allowed_vlans: none             # choose from [none, all, vlan range]
+            cmds:                           # Freeform config
+              - no shutdown
+            description: "port channel acting as trunk"
+    with_items: "{{ excel.list }}"
+  
+

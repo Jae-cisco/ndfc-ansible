@@ -1,0 +1,22 @@
+Host,interface,description
+Leaf-2,eth1/49,OSH Control-Plan Kube Master-1-NIC2-PORT2
+Leaf-2,eth1/50,OSH Control-Plan Kube Master-2-NIC2-PORT2
+Leaf-2,eth1/51,OSH Control-Plan Kube Master-3-NIC2-PORT2
+Leaf-2,eth1/52,OSH Control-Plan Kube Worker-1-NIC2-PORT2
+Leaf-2,eth1/53,OSH Control-Plan Kube Worker-2-NIC2-PORT2
+Leaf-2,eth1/54,OSH Control-Plan Kube Worker-3-NIC2-PORT2
+Leaf-2,eth1/55,CEPH Kube Worker - Mon-1-NIC2-PORT2
+Leaf-2,eth1/56,CEPH Kube Worker - Mon-2-NIC2-PORT2
+Leaf-2,eth1/57,CEPH Kube Worker - Mon-3-NIC2-PORT2
+Leaf-2,eth1/58,CEPH Kube Worker - OSD-1-NIC2-PORT2
+Leaf-2,eth1/59,CEPH Kube Worker - OSD-2-NIC2-PORT2
+Leaf-2,eth1/60,CEPH Kube Worker - OSD-3-NIC2-PORT2
+Leaf-2,eth1/61,CEPH Kube Worker - OSD-4-NIC2-PORT2
+Leaf-2,eth1/62,CEPH Kube Worker - OSD-5-NIC2-PORT2
+Leaf-2,eth1/63,CEPH Kube Worker - OSD-6-NIC2-PORT2
+Leaf-2,eth1/64,CEPH Kube Worker - OSD-7-NIC2-PORT2
+Leaf-2,eth1/65,CEPH Kube Worker - OSD-8-NIC2-PORT2
+Leaf-2,eth1/66,CEPH Kube Worker - OSD-9-NIC2-PORT2
+Leaf-2,eth1/67,CEPH Kube Worker - OSD-10-NIC2-PORT2
+Leaf-2,eth1/68,CEPH Kube Worker - OSD-11-NIC2-PORT2
+Leaf-2,eth1/69,CEPH Kube Worker - OSD-12-NIC2-PORT2-ans

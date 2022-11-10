@@ -1,0 +1,43 @@
+---
+- name: NDFC Connectivity Test
+  hosts: ndfc_cisg_lab
+  connection: ansible.netcommon.httpapi
+  gather_facts: true
+
+  tasks:
+
+  - name: Import CSV
+    community.general.read_csv:
+      path: leaf-2-description.csv
+    register: excel
+    delegate_to: localhost
+
+  - name: display user_list data
+    debug:
+      var: item.description
+    with_items: "{{ excel.list }}"
+
+#Replace the description of ethernet interface by using csv file import in code
+
+  - name: Replace ethernet interfaces description
+    cisco.dcnm.dcnm_interface:
+      fabric: netmarble-kt
+      state: replaced                       # only choose from [merged, replaced, deleted, overridden. query]
+      config:
+        - name: "{{ item.interface }}"                      # should be of the form lo<port-id>
+          type: eth                         # choose from this list [pc, vpc, sub_int, lo, eth]
+          switch:
+            - "Leaf-2"                 # provide the switch where to deploy the config
+          deploy: true                      ## choose from [true, false]
+          profile:
+            admin_state: true              ## choose from [true, false]
+            bpdu_guard: false                # choose from [true, false, no]
+            port_type_fast: true            # choose from [true, false]
+            speed: Auto
+            mtu: jumbo                      # choose from [default, jumbo]
+            mode: trunk
+            allowed_vlans: none             # choose from [none, all, vlan range]
+            #cmds:                           # Freeform config
+            #  - no shutdown
+            description: "{{ item.description }}" 
+    with_items: "{{ excel.list }}"

@@ -28,7 +28,7 @@
           type: eth                         # choose from this list [pc, vpc, sub_int, lo, eth]
           switch:
             - "Leaf-2"                 # provide the switch where to deploy the config
-          deploy: true                      ## choose from [true, false]
+          deploy: false                      ## choose from [true, false]
           profile:
             admin_state: true              ## choose from [true, false]
             bpdu_guard: false                # choose from [true, false, no]

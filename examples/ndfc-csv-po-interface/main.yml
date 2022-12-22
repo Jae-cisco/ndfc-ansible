@@ -26,7 +26,8 @@
       fabric: netmarble-kt
       state: merged                         # only choose from [merged, replaced, deleted, overridden, query]
       config:
-        - name: po300                       # should be of the form po<port-id>
+        - deploy: no
+          name: po300                       # should be of the form po<port-id>
           type: pc                          # choose from this list [pc, vpc, sub_int, lo, eth]
           switch:
             - "Leaf-3"                 # provide the switch information where the config is to be deployed

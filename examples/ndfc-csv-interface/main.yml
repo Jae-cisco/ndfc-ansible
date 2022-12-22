@@ -24,7 +24,8 @@
       fabric: netmarble-kt
       state: replaced                       # only choose from [merged, replaced, deleted, overridden. query]
       config:
-        - name: "{{ item.interface }}"                      # should be of the form lo<port-id>
+        - deploy: no
+          name: "{{ item.interface }}"                      # should be of the form lo<port-id>
           type: eth                         # choose from this list [pc, vpc, sub_int, lo, eth]
           switch:
             - "Leaf-2"                 # provide the switch where to deploy the config

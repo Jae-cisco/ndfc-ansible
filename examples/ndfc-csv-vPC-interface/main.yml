@@ -1,0 +1,47 @@
+---
+- name: NDFC Test
+  hosts: ndfc_cisg_lab
+  connection: ansible.netcommon.httpapi
+  gather_facts: true
+
+  tasks:
+
+  - name: Import CSV
+    community.general.read_csv:
+      path: leaf2-csv.csv
+    register: excel
+    delegate_to: localhost
+ 
+  - name: display user_list data
+    debug:
+      var: item.name
+    with_items: "{{ excel.list }}"
+
+  - name: Create vPC interfaces
+    cisco.dcnm.dcnm_interface:
+      fabric: vxlan
+      state: replaced                       # only choose from [merged, replaced, deleted, overridden. query]
+      config:
+        - name: "{{ item.name }}"                       
+          type: vpc                         # choose from this list [pc, vpc, sub_int, lo, eth]
+          switch:
+            - ["{{ item.leaf1 }}","{{ item.leaf2 }}"] # provide the switch where to deploy the config
+          deploy: false                      ## choose from [true, false]
+          profile:
+            admin_state: true               # choose from [true, false]
+            mode: trunk                     # choose from [trunk, access]
+            peer1_pcid: "{{ item.pcid1 }}"  # choose between [Min:1, Max:4096], if not given, will be VPC port-id
+            peer2_pcid: "{{ item.pcid2 }}"  # choose between [Min:1, Max:4096], if not given, will be VPC port-id
+            peer1_members:                  # member interfaces on peer 1
+              - "{{ item.interface1 }}"  
+            peer2_members:                  # member interfaces on peer 2
+              - "{{ item.interface2 }}"  
+            pc_mode: 'active'               # choose from ['on', 'active', 'passive']
+            bpdu_guard: true                # choose from [true, false, 'no']
+            port_type_fast: true            # choose from [true, false]
+            mtu: jumbo                      # choose from [default, jumbo]
+            peer1_allowed_vlans: none       # choose from [none, all, vlan range]
+            peer2_allowed_vlans: none       # choose from [none, all, vlan range]
+            peer1_description: "VPC acting as trunk peer1"
+            peer2_description: "VPC acting as trunk peer2"
+    with_items: "{{ excel.list }}"

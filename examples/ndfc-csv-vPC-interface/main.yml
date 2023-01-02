@@ -8,7 +8,7 @@
 
   - name: Import CSV
     community.general.read_csv:
-      path: leaf2-csv.csv
+      path: vpc-interface-csv.csv
     register: excel
     delegate_to: localhost
  

@@ -1,0 +1,38 @@
+---
+- name: NDFC Connectivity Test
+  hosts: ndfc_cisg_lab
+  connection: ansible.netcommon.httpapi
+  gather_facts: true
+
+  tasks:
+  - name: Delete policies using policy-id
+    cisco.dcnm.dcnm_policy:
+      fabric: vxlan_phynd
+      state: deleted          # only choose form [merged, deleted, query]
+      config:
+        #- name: POLICY-40500  # name is mandatory
+        #- name: POLICY-40490  # name is mandatory
+        #- name: POLICY-41440
+        #- name: POLICY-41430
+        #- name: POLICY-40360
+        #- name: POLICY-40350
+        #- name: POLICY-41370
+        #- name: POLICY-41360
+        - name: POLICY-40300
+        - name: POLICY-40290
+        - name: POLICY-40240
+        - name: POLICY-40230
+        - name: POLICY-41250
+        - name: POLICY-41240
+        - name: POLICY-40180
+        - name: POLICY-40170
+        - name: POLICY-41190
+        - name: POLICY-41180
+        - name: POLICY-41130
+        - name: POLICY-41120
+        - switch:
+            - ip: 10.70.136.177
+
+          
+  #- debug:
+  #    var: fabrics
